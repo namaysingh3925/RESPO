@@ -45,3 +45,6 @@ next-env.d.ts
 /lib/generated/
 /prisma/*.db
 /prisma/*.db-journal
+
+# personal Claude skills folder (not part of the app)
+/10k-websites-skill/
