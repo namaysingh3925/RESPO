@@ -5,7 +5,7 @@ const currency = new Intl.NumberFormat(siteConfig.locale, {
   currency: siteConfig.currency,
 });
 
-/** 1650 → "$16.50" */
+/** 63000 → "₹630.00" */
 export function formatPrice(cents: number): string {
   return currency.format(cents / 100);
 }

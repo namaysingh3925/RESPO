@@ -2,11 +2,11 @@ import type { LucideIcon } from "lucide-react";
 import { Bike, ShoppingBag, Wine } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
 
-const { pickupLeadMinutes, deliveryRadiusMiles } = siteConfig.ordering;
+const { pickupLeadMinutes, deliveryRadiusKm } = siteConfig.ordering;
 
 const INFO_CHIPS: Array<{ icon: LucideIcon; label: string }> = [
   { icon: ShoppingBag, label: `Pickup in ~${pickupLeadMinutes} min` },
-  { icon: Bike, label: `Delivery within ${deliveryRadiusMiles} mi` },
+  { icon: Bike, label: `Delivery within ${deliveryRadiusKm} km` },
   { icon: Wine, label: "Cocktails are dine-in only" },
 ];
 

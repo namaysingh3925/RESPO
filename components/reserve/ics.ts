@@ -10,24 +10,16 @@ import { guestsLabel, isLunchSlot, TABLE_HOLD_MINUTES } from "@/components/reser
 const CRLF = "\r\n";
 const DURATION_MINUTES = 120;
 
-/** VTIMEZONE for America/New_York (US DST rules since 2007). Other zones rely on the client resolving the TZID. */
-const NEW_YORK_VTIMEZONE = [
+/** VTIMEZONE for Asia/Kolkata (fixed +05:30, no DST). Other zones rely on the client resolving the TZID. */
+const KOLKATA_VTIMEZONE = [
   "BEGIN:VTIMEZONE",
-  "TZID:America/New_York",
-  "X-LIC-LOCATION:America/New_York",
-  "BEGIN:DAYLIGHT",
-  "TZOFFSETFROM:-0500",
-  "TZOFFSETTO:-0400",
-  "TZNAME:EDT",
-  "DTSTART:19700308T020000",
-  "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU",
-  "END:DAYLIGHT",
+  "TZID:Asia/Kolkata",
+  "X-LIC-LOCATION:Asia/Kolkata",
   "BEGIN:STANDARD",
-  "TZOFFSETFROM:-0400",
-  "TZOFFSETTO:-0500",
-  "TZNAME:EST",
-  "DTSTART:19701101T020000",
-  "RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU",
+  "TZOFFSETFROM:+0530",
+  "TZOFFSETTO:+0530",
+  "TZNAME:IST",
+  "DTSTART:19700101T000000",
   "END:STANDARD",
   "END:VTIMEZONE",
 ];
@@ -103,7 +95,7 @@ export function buildReservationIcs(reservation: ReservationDTO, now: Date = new
     `PRODID:-//${escapeIcsText(siteConfig.name)}//Reservations//EN`,
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
-    ...(tz === "America/New_York" ? NEW_YORK_VTIMEZONE : []),
+    ...(tz === "Asia/Kolkata" ? KOLKATA_VTIMEZONE : []),
     "BEGIN:VEVENT",
     `UID:${code.toLowerCase()}@${siteHost()}`,
     `DTSTAMP:${toUtcStamp(now)}`,

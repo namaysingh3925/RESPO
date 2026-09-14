@@ -282,7 +282,7 @@ Error codes: `VALIDATION_ERROR 422` · `NOT_FOUND 404` · `SLOT_UNAVAILABLE 409`
   "customerName": "Sam Rivera",
   "email": "sam@example.com",
   "phone": "(555) 010-2030",
-  "deliveryAddress": { "line1": "88 Kent Ave", "line2": "Apt 4", "city": "Brooklyn", "postalCode": "11211", "instructions": "Buzz 4" },
+  "deliveryAddress": { "line1": "12th Main Road", "line2": "Flat 4", "city": "Bengaluru", "postalCode": "560038", "instructions": "Buzz 4" },
   "requestedTime": null,
   "tipCents": 300,
   "paymentMethod": "PAY_IN_PERSON",
@@ -349,7 +349,7 @@ Error codes: `VALIDATION_ERROR 422` · `NOT_FOUND 404` · `SLOT_UNAVAILABLE 409`
 │ [full-bleed photo, dark scrim]│  FlowSection 00 — Hero
 │ WOOD-FIRED                   │
 │ COMFORT FOOD                 │
-│ Brooklyn · Open till 11:30pm │  ← live "Open now" status
+│ Indiranagar · Open till 11:30pm│  ← live "Open now" status
 │ [Order online]  [Book table] │
 ├──────────────────────────────┤
 │ 01 — OUR STORY  (ember bg)   │  FlowSection — rotates in on scroll

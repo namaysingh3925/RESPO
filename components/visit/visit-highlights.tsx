@@ -18,7 +18,7 @@ const HIGHLIGHTS: Highlight[] = [
   {
     icon: TrainFront,
     title: "Parking & transit",
-    body: `Metered street parking on ${siteConfig.address.street} and the surrounding blocks fills up fast on weekend evenings, so the subway is your friend: the Bedford Av L stop is a short walk away. There's a bike rack out front.`,
+    body: `Street parking on ${siteConfig.address.street} and the surrounding blocks fills up fast on weekend evenings, so the metro is your friend: Indiranagar station is a short walk away. There's a bike rack out front.`,
   },
   {
     icon: Accessibility,

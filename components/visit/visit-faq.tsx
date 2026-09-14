@@ -69,7 +69,7 @@ const FAQS: Array<{ id: string; question: string; answer: ReactNode }> = [
     question: "How far do you deliver?",
     answer: (
       <p>
-        We deliver within {ordering.deliveryRadiusMiles} miles of the restaurant. Delivery orders
+        We deliver within {ordering.deliveryRadiusKm} km of the restaurant. Delivery orders
         start at {formatPrice(ordering.minimumDeliverySubtotalCents)}, the delivery fee is{" "}
         {formatPrice(ordering.deliveryFeeCents)}, and it&apos;s free on orders over{" "}
         {formatPrice(ordering.freeDeliveryThresholdCents)}. Allow about {ordering.deliveryLeadMinutes}{" "}

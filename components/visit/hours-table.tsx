@@ -25,7 +25,7 @@ export function HoursTable({ className, children }: HoursTableProps) {
         <h2 id="visit-hours" className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">
           Opening hours
         </h2>
-        <p className="text-xs text-muted-foreground">Eastern Time</p>
+        <p className="text-xs text-muted-foreground">Indian Standard Time</p>
       </div>
 
       <table className="mt-3 w-full border-separate border-spacing-0 text-base">
