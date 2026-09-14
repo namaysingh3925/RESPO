@@ -91,7 +91,8 @@ export function MenuItemCard({ item, className }: MenuItemCardProps) {
         <h3 id={headingId} className="text-base leading-snug font-semibold text-balance">
           {item.name}
         </h3>
-        <p className="mt-1 line-clamp-2 text-sm leading-snug text-muted-foreground">{item.description}</p>
+        {/* Not clamped: descriptions list ingredients guests check for allergies, and there's no detail view. */}
+        <p className="mt-1 text-sm leading-snug text-pretty text-muted-foreground">{item.description}</p>
 
         {(item.calories !== null || item.dietaryTags.length > 0) && (
           <div className="mt-2 flex flex-wrap items-center gap-1.5">

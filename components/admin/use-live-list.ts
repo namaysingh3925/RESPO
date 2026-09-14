@@ -52,6 +52,18 @@ const EMPTY: never[] = [];
 /** Ignore focus/visibility refreshes that land right after another request started. */
 const FOCUS_DEBOUNCE_MS = 3_000;
 
+type FetchResult<T> = { ok: true; items: T[] } | { ok: false; message: string };
+
+/** One GET for the list; never throws. */
+async function fetchList<T>(url: string, select: (data: unknown) => T[]): Promise<FetchResult<T>> {
+  try {
+    const data = await apiFetch<unknown>(url, { cache: "no-store" });
+    return { ok: true, items: select(data) };
+  } catch (err) {
+    return { ok: false, message: describeError(err) };
+  }
+}
+
 /**
  * A server list kept fresh by polling (plus refresh on window focus), with optimistic per-item updates.
  * Poll results never clobber an item whose update is in flight or settled after the poll started.
@@ -84,48 +96,59 @@ export function useLiveList<T extends Identifiable>({
   const pendingRef = useRef(new Set<string>());
   const touchedAtRef = useRef(new Map<string, number>());
 
+  /**
+   * Loads `initialTarget`, then keeps going while refreshes were queued during the request.
+   * A loop rather than a recursive call, so the callback never references itself.
+   */
   const load = useCallback(
-    async (target: string) => {
-      const requestSeq = ++seqRef.current;
-      latestRequestRef.current = requestSeq;
-      inFlightRef.current = true;
-      lastStartedAtRef.current = Date.now();
-      setIsRefreshing(true);
+    async (initialTarget: string) => {
+      let target: string | null = initialTarget;
+      while (target !== null) {
+        const requested: string = target;
+        const requestSeq = ++seqRef.current;
+        latestRequestRef.current = requestSeq;
+        inFlightRef.current = true;
+        lastStartedAtRef.current = Date.now();
+        setIsRefreshing(true);
 
-      const isCurrent = () => requestSeq === latestRequestRef.current && target === keyRef.current;
-      try {
-        const data = await apiFetch<unknown>(buildUrl(target), { cache: "no-store" });
-        if (!isCurrent()) return;
-        const fresh = select(data);
-        const keepLocal = new Set(
-          fresh
-            .filter(
-              (item) =>
-                pendingRef.current.has(item.id) ||
-                (touchedAtRef.current.get(item.id) ?? 0) > requestSeq,
-            )
-            .map((item) => item.id),
-        );
-        const fetchedAt = Date.now();
-        setSnapshot((prev) => {
-          const local = prev.key === target ? new Map(prev.items.map((item) => [item.id, item])) : null;
-          return {
-            key: target,
-            fetchedAt,
-            items: fresh.map((item) => (keepLocal.has(item.id) ? (local?.get(item.id) ?? item) : item)),
-          };
-        });
-        setError(null);
-      } catch (err) {
-        if (!isCurrent()) return;
-        setError({ key: target, message: describeError(err) });
-      } finally {
-        if (requestSeq === latestRequestRef.current) {
+        const result = await fetchList(buildUrl(requested), select);
+        const isLatest = requestSeq === latestRequestRef.current;
+
+        if (isLatest && requested === keyRef.current) {
+          if (result.ok) {
+            const fresh = result.items;
+            const keepLocal = new Set(
+              fresh
+                .filter(
+                  (item) =>
+                    pendingRef.current.has(item.id) ||
+                    (touchedAtRef.current.get(item.id) ?? 0) > requestSeq,
+                )
+                .map((item) => item.id),
+            );
+            const fetchedAt = Date.now();
+            setSnapshot((prev) => {
+              const local = prev.key === requested ? new Map(prev.items.map((item) => [item.id, item])) : null;
+              return {
+                key: requested,
+                fetchedAt,
+                items: fresh.map((item) => (keepLocal.has(item.id) ? (local?.get(item.id) ?? item) : item)),
+              };
+            });
+            setError(null);
+          } else {
+            setError({ key: requested, message: result.message });
+          }
+        }
+
+        target = null;
+        // A newer request (e.g. after a key change) owns the in-flight flag and the queue.
+        if (isLatest) {
           inFlightRef.current = false;
           setIsRefreshing(false);
           if (queuedRef.current) {
             queuedRef.current = false;
-            void load(keyRef.current);
+            target = keyRef.current;
           }
         }
       }
