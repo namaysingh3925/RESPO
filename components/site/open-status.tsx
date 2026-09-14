@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { getOpenStatus, type OpenState } from "@/components/site/hours";
-import { useRestaurantClock } from "@/components/site/use-restaurant-clock";
+import { useRestaurantClock } from "@/hooks/use-restaurant-clock";
 
 const DOT: Record<OpenState, string> = {
   open: "bg-emerald-500",

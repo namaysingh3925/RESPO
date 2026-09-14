@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { formatHoursRange, hoursForDay } from "@/components/site/hours";
-import { useRestaurantClock } from "@/components/site/use-restaurant-clock";
+import { useRestaurantClock } from "@/hooks/use-restaurant-clock";
 
 interface TodayHoursProps {
   className?: string;

@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
+import { prefersReducedMotion } from "@/hooks/use-media-query";
 import { formatDateLabel } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { DATE_STRIP_DAYS, isDateInRange, type DayOption } from "@/components/reserve/reserve-utils";
@@ -24,10 +25,6 @@ interface DateStripProps {
   invalid?: boolean;
   /** Wraps the day buttons; used by the form to focus the strip. */
   ref?: Ref<HTMLDivElement>;
-}
-
-function prefersReducedMotion(): boolean {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 /** Horizontally scrollable 14-day strip plus a native date picker for anything further out. */
