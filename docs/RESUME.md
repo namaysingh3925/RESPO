@@ -1,65 +1,39 @@
-# Resume notes — Phase 1 build paused
+# Phase 1 status
 
-**Paused:** 2026-09-14, after the parallel build hit the account's monthly usage limit.
-**Last good commit before this note:** `e9babf3`.
-**Spec:** [ARCHITECTURE.md](./ARCHITECTURE.md). The contracts in `lib/` and `components/ui/` are unchanged and still authoritative.
+**Completed:** 2026-09-14. The MVP described in [ARCHITECTURE.md](./ARCHITECTURE.md) is built and working end to end — every public page renders real seeded data, checkout and reservations submit to real endpoints, and staff can manage both from `/admin`.
 
-## State at pause
+## Verified
 
-- `npx tsc --noEmit`: the only error is `LayoutProps` not found in `app/layout.tsx`. That's a generated route type that reappears after `npx next typegen`, `next dev` or `next build`, so it isn't a code error.
-- `npx eslint components lib app`: 1 error, `react-hooks/preserve-manual-memoization` in `components/admin/use-live-list.ts`.
-- Local database `prisma/dev.db` is migrated (init migration) but **not seeded**, because `prisma/seed.ts` doesn't exist yet.
-- `.env` exists locally (dev admin credentials, `ENFORCE_BUSINESS_HOURS="false"`) and is git-ignored. Recreate it from `.env.example` on a fresh clone.
+- `npx tsc --noEmit`: 0 errors
+- `npm run lint`: 0 errors
+- `npm run test:unit`: 12/12 passing (restaurant-local date/time helpers)
+- Manual pass through every page in a running dev server: home, menu (filter + add to cart), full checkout (kitchen-closed handling, tip presets, order summary), a reservation booked end to end (real confirmation code issued), visit, and the admin board (orders board + reservations panel, live polling, an order accepted through its full status lifecycle)
 
-## Workstreams
+## Running locally
 
-Status: ✅ done · 🟡 partial · ⬜ not started
+```bash
+npm install
+cp .env.example .env   # then set ADMIN_USER / ADMIN_PASSWORD
+npm run db:reset       # migrate + seed
+npm run dev
+```
 
-### 1. Data layer & API — 🟡
-- ✅ `prisma.config.ts`, `lib/db.ts`, `prisma/migrations/*_init`
-- ✅ `lib/services/{menu,reservations,orders}.ts` implemented against Prisma
-- ✅ `lib/services/internal/{codes,database-url,mappers,schedule,time}.ts` and `time.test.ts` (node:test via tsx)
-- ✅ `.env.example`
-- ⬜ `prisma/seed.ts` (idempotent menu upsert from `lib/data/menu.ts`, admin user, sample reservations/orders)
-- ⬜ `package.json` scripts: `postinstall`, `db:generate`, `db:migrate`, `db:seed`, `db:reset`, `db:studio`, `smoke:api`, `test:unit` (`time.test.ts` already expects `test:unit`)
-- ⬜ `lib/api/*` route helpers, all of `app/api/**` (ARCHITECTURE §3), `proxy.ts` (Basic auth), `scripts/smoke-api.mjs`
+`/admin` is behind HTTP Basic auth (`proxy.ts`) using `ADMIN_USER` / `ADMIN_PASSWORD` from `.env`.
 
-### 2. Site shell, home, visit, SEO — 🟡
-- ✅ `components/site/{hours.ts, open-status.tsx, today-hours.tsx, use-restaurant-clock.ts, wordmark.tsx}`
-- ⬜ `app/(site)/layout.tsx`, `site-header`, `mobile-nav`, `site-footer`, `mobile-action-bar`
-- ⬜ Home page (`FlowArt` story sections plus the `components/home/signature-showcase.tsx` interactor)
-- ⬜ Visit page and `components/visit/*`
-- ⬜ `components/seo/restaurant-json-ld.tsx`, `app/sitemap.ts`, `app/robots.ts`, `app/not-found.tsx`, `app/icon.svg`
+## What's here
 
-### 3. Menu — 🟡
-- ✅ `components/menu/{category-section, category-showcase, dietary, menu-hero, menu-item-card, use-media-query}`
-- ⬜ `components/menu/menu-explorer.tsx` (dietary filter, sticky category nav, scroll-spy)
-- ⬜ `app/(site)/menu/page.tsx`, `app/(site)/menu/loading.tsx`
+| Area | Notes |
+|---|---|
+| Public site (`app/(site)/**`) | Home (GSAP story-scroll), menu, checkout, order tracking, reserve, visit |
+| Staff admin (`app/admin/**`) | Orders board + reservations panel, behind Basic auth |
+| API (`app/api/**`) | Menu, reservations, orders, and the `/api/admin/*` staff endpoints — see [ARCHITECTURE.md §3](./ARCHITECTURE.md) |
+| Data (`prisma/`) | SQLite for dev; `prisma/seed.ts` is idempotent (6 categories, 29 dishes, sample orders/reservations) |
+| Shared hooks (`hooks/`) | `useRestaurantClock`, `useMediaQuery` / `prefersReducedMotion` — the single source for both, reused everywhere |
 
-### 4. Cart, checkout, tracking — 🟡
-- ✅ `components/cart/{cart-button, cart-sheet, cart-line, use-cart-hydrated}`
-- ✅ `components/order/{checkout-fields.tsx, order-summary.tsx, schedule.ts}`
-- ⬜ `components/order/checkout-form.tsx`, `app/(site)/order/page.tsx`
-- ⬜ `app/(site)/order/[code]/page.tsx`, `components/order/order-tracker.tsx`
+## Known gaps / next steps
 
-### 5. Reservations — 🟡
-- ✅ `components/reserve/{date-strip, ics, reserve-utils, time-slot-grid, use-restaurant-clock}`
-- ⬜ `components/reserve/reservation-form.tsx`, `reservation-confirmation.tsx`, `app/(site)/reserve/page.tsx`
-
-### 6. Staff admin — 🟡
-- ✅ `components/admin/{confirm-action, hooks, order-card, status-badge, sync-status, use-live-list, utils}`
-- ⬜ `app/admin/layout.tsx`, `app/admin/page.tsx`, `admin-dashboard`, `orders-board`, `reservations-panel`
-
-### 7. Integration & review — ⬜
-- ⬜ Seed the database; get `tsc`, `lint` and `next build` clean; run the API smoke tests and page status checks
-- ⬜ Browser QA at mobile and desktop sizes
-- ⬜ Multi-lens review: GSAP/hydration, API security, business logic, accessibility, Next 16 conventions
-
-## Cleanup to fold into integration
-- `components/site/use-restaurant-clock.ts` and `components/reserve/use-restaurant-clock.ts` are two different implementations of the same idea. Keep one.
-- Fix the lint error in `components/admin/use-live-list.ts`.
-
-## How to resume
-1. Confirm the usage limit has reset.
-2. Re-run the build workflow with each builder told to **read the existing files in its owned paths and finish only the ⬜ items above**. It must not rewrite finished files. The previous script is in the session's workflow scripts folder (`ember-house-phase1-build-*.js`), but its prompts assume stubs, so update them first. Resuming from the old run ID caches nothing, because every agent failed.
-3. Then run integration, then review, as separate workflows so progress can be checked between them.
+- **Card payments** — `paymentMethod: "CARD"` is rejected server-side with "coming soon"; Stripe integration is Phase 2 (see ARCHITECTURE.md).
+- **No automated end-to-end/browser tests** — verification above was manual. Consider Playwright for the checkout and reservation flows before a real launch.
+- **No rate limiting** on `POST /api/orders` / `POST /api/reservations` yet (flagged in ARCHITECTURE.md as Phase 1.1).
+- **Production database** — still SQLite; migrating to Postgres means changing the Prisma provider and `MenuItem.dietaryTags` from a CSV string to a real array (see ARCHITECTURE.md §2 migration checklist).
+- **Real content** — restaurant name, address, menu, and photography are all placeholders (`lib/site-config.ts`, `lib/data/menu.ts`) pending the real brand.
