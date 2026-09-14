@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 
 // ---------- useNow: one shared 30-second clock for relative ages ----------
 
@@ -37,21 +37,4 @@ export function useNow(serverNow: number): number {
   return useSyncExternalStore(subscribeClock, getClock, () => serverNow);
 }
 
-// ---------- useMediaQuery ----------
-
-/** `null` during the server render and hydration (render responsive fallbacks with CSS), then a boolean. */
-export function useMediaQuery(query: string): boolean | null {
-  const subscribe = useCallback(
-    (onChange: () => void) => {
-      const mql = window.matchMedia(query);
-      mql.addEventListener("change", onChange);
-      return () => mql.removeEventListener("change", onChange);
-    },
-    [query],
-  );
-  return useSyncExternalStore<boolean | null>(
-    subscribe,
-    () => window.matchMedia(query).matches,
-    () => null,
-  );
-}
+// Media queries: useMediaQuery() from "@/hooks/use-media-query".

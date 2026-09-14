@@ -1,62 +1,12 @@
-import { useMemo, useSyncExternalStore } from "react";
-import { formatTime, fromMinutes, restaurantNow, toMinutes } from "@/lib/format";
+import type { RestaurantClock } from "@/hooks/use-restaurant-clock";
+import { formatTime, fromMinutes, toMinutes } from "@/lib/format";
 import { siteConfig } from "@/lib/site-config";
 
-export interface RestaurantClock {
-  /** Restaurant-local "YYYY-MM-DD" */
-  date: string;
-  /** 0 = Sunday */
-  weekday: number;
-  /** Restaurant-local "HH:mm" */
-  time: string;
-}
+// Live clock for these helpers: useRestaurantClock() from "@/hooks/use-restaurant-clock".
 
 const SLOT_STEP_MINUTES = 15;
 /** The last schedulable slot is this many minutes before close. */
 const LAST_SLOT_BEFORE_CLOSE_MINUTES = 30;
-const TICK_MS = 15_000;
-
-// ---------- Live restaurant clock (client-only, SSR-safe) ----------
-
-let cachedBucket = -1;
-let cachedSnapshot = "";
-
-function subscribe(onChange: () => void) {
-  const interval = window.setInterval(onChange, TICK_MS);
-  const onVisible = () => {
-    if (document.visibilityState === "visible") onChange();
-  };
-  document.addEventListener("visibilitychange", onVisible);
-  return () => {
-    window.clearInterval(interval);
-    document.removeEventListener("visibilitychange", onVisible);
-  };
-}
-
-function getSnapshot(): string {
-  // Intl formatting is comparatively slow, so recompute at most once per tick window.
-  const bucket = Math.floor(Date.now() / TICK_MS);
-  if (bucket !== cachedBucket) {
-    cachedBucket = bucket;
-    const now = restaurantNow();
-    cachedSnapshot = `${now.date}|${now.weekday}|${now.time}`;
-  }
-  return cachedSnapshot;
-}
-
-function getServerSnapshot(): string {
-  return "";
-}
-
-/** Current wall-clock time at the restaurant, refreshed every 15 s. `null` during SSR / the first client render. */
-export function useRestaurantClock(): RestaurantClock | null {
-  const snapshot = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  return useMemo(() => {
-    if (!snapshot) return null;
-    const [date, weekday, time] = snapshot.split("|");
-    return { date, weekday: Number(weekday), time };
-  }, [snapshot]);
-}
 
 // ---------- Pure schedule helpers ----------
 

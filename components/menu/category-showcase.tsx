@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Component as StackInteractor } from "@/components/ui/connoisseur-stack-interactor";
-import { useMediaQuery } from "@/components/menu/use-media-query";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { toStackItems } from "@/lib/showcase";
 import type { MenuItemDTO } from "@/lib/types";
 import { cn } from "@/lib/utils";
