@@ -78,7 +78,7 @@ export const deliveryAddressSchema = z.object({
   line1: z.string().trim().min(3, "Enter a street address").max(120),
   line2: optionalText(120),
   city: z.string().trim().min(2, "Enter a city").max(60),
-  postalCode: z.string().trim().regex(/^\d{5}(-\d{4})?$/, "Enter a valid ZIP code"),
+  postalCode: z.string().trim().regex(/^\d{6}$/, "Enter a valid 6-digit PIN code"),
   instructions: optionalText(200),
 });
 

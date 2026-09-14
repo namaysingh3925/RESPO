@@ -25,12 +25,12 @@ const CLIP_ROTATION: ClipShape[] = [
 
 /** Homepage "what we're cooking" showcase — one entry per menu category. */
 export const HOME_SHOWCASE: Array<StackItem & { href: string }> = [
-  { num: "01", name: "Smash Burgers", clipId: "clip-original", image: unsplash(PHOTOS.smashBurger), caption: "Burgers & grill · from $9", href: "/menu#burgers-grill" },
-  { num: "02", name: "Wood-Fired Pizza", clipId: "clip-slices", image: unsplash(PHOTOS.rusticPizza), caption: "900°F oven · from $16", href: "/menu#wood-fired" },
-  { num: "03", name: "Harvest Bowls", clipId: "clip-plates", image: unsplash(PHOTOS.harvestBowl), caption: "Bowls & greens · from $15", href: "/menu#bowls-greens" },
+  { num: "01", name: "Smash Burgers", clipId: "clip-original", image: unsplash(PHOTOS.smashBurger), caption: "Burgers & grill · from ₹340", href: "/menu#burgers-grill" },
+  { num: "02", name: "Wood-Fired Pizza", clipId: "clip-slices", image: unsplash(PHOTOS.rusticPizza), caption: "900°F oven · from ₹610", href: "/menu#wood-fired" },
+  { num: "03", name: "Harvest Bowls", clipId: "clip-plates", image: unsplash(PHOTOS.harvestBowl), caption: "Bowls & greens · from ₹570", href: "/menu#bowls-greens" },
   { num: "04", name: "Artisan Waffles", clipId: "clip-pixels", image: unsplash(PHOTOS.waffles), caption: "Weekend brunch · Sat & Sun", href: "/menu#brunch" },
-  { num: "05", name: "Fresh Desserts", clipId: "clip-hexagons", image: unsplash(PHOTOS.donuts), caption: "Baked in-house · from $7", href: "/menu#desserts" },
-  { num: "06", name: "Steak Frites", clipId: "clip-arches", image: unsplash(PHOTOS.steakFrites), caption: "10oz hanger · $32", href: "/menu#burgers-grill" },
+  { num: "05", name: "Fresh Desserts", clipId: "clip-hexagons", image: unsplash(PHOTOS.donuts), caption: "Baked in-house · from ₹270", href: "/menu#desserts" },
+  { num: "06", name: "Steak Frites", clipId: "clip-arches", image: unsplash(PHOTOS.steakFrites), caption: "10oz hanger · ₹1,220", href: "/menu#burgers-grill" },
   { num: "07", name: "Smoked Cocktails", clipId: "clip-stripes", image: unsplash(PHOTOS.oldFashioned), caption: "Bar open till late", href: "/menu#drinks" },
 ];
 

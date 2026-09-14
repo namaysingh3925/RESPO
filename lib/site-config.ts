@@ -17,28 +17,28 @@ export const siteConfig = {
   name: "Ember House",
   tagline: "Wood-fired comfort food",
   description:
-    "Ember House is a wood-fired kitchen in Brooklyn serving smash burgers, blistered pizza, weekend brunch and late-night desserts. Order pickup or delivery, or book a table online.",
+    "Ember House is a wood-fired kitchen in Indiranagar, Bengaluru serving smash burgers, blistered pizza, weekend brunch and late-night desserts. Order pickup or delivery, or book a table online.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   ogImage:
     "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&h=630&q=80&auto=format&fit=crop",
 
-  phone: "(555) 014-2290",
-  phoneHref: "tel:+15550142290",
+  phone: "080 4123 5678",
+  phoneHref: "tel:+918041235678",
   email: "hello@emberhouse.example",
   instagramHandle: "@emberhouse",
 
   address: {
-    street: "214 Hearth Street",
-    city: "Brooklyn",
-    region: "NY",
-    postalCode: "11211",
-    country: "US",
+    street: "100 Feet Road, Indiranagar",
+    city: "Bengaluru",
+    region: "KA",
+    postalCode: "560038",
+    country: "IN",
   },
-  geo: { lat: 40.7143, lng: -73.9614 },
+  geo: { lat: 12.9784, lng: 77.6408 },
   /** All reservation dates/times and order pickup times are in this zone. */
-  timeZone: "America/New_York",
-  currency: "USD",
-  locale: "en-US",
+  timeZone: "Asia/Kolkata",
+  currency: "INR",
+  locale: "en-IN",
 
   hours: [
     { day: 1, label: "Monday", open: "11:30", close: "22:00" },
@@ -70,7 +70,7 @@ export const siteConfig = {
     deliveryFeeCents: 399,
     freeDeliveryThresholdCents: 5000,
     minimumDeliverySubtotalCents: 2000,
-    deliveryRadiusMiles: 3,
+    deliveryRadiusKm: 5,
     pickupLeadMinutes: 20,
     deliveryLeadMinutes: 45,
     maxQuantityPerLine: 20,

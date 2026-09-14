@@ -260,7 +260,7 @@ const SAMPLE_ORDERS: SampleOrder[] = [
     ],
     tipRate: 0.2,
     notes: "Extra napkins, please",
-    address: { line1: "88 Kent Ave", line2: "Apt 4", city: "Brooklyn", postalCode: "11211", instructions: "Buzz 4, third floor" },
+    address: { line1: "12th Main Road", line2: "Flat 4", city: "Bengaluru", postalCode: "560038", instructions: "Buzz 4, third floor" },
   },
   {
     customerName: "Theo Park",
@@ -291,7 +291,7 @@ const SAMPLE_ORDERS: SampleOrder[] = [
       { slug: "cookies-cream-shake", quantity: 2 },
     ],
     tipRate: 0.18,
-    address: { line1: "31 Wythe Ave", city: "Brooklyn", postalCode: "11249" },
+    address: { line1: "4th Cross, Domlur Layout", city: "Bengaluru", postalCode: "560071" },
   },
 ];
 

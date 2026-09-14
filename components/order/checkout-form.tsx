@@ -58,7 +58,7 @@ import { cn } from "@/lib/utils";
 const {
   pickupLeadMinutes,
   deliveryLeadMinutes,
-  deliveryRadiusMiles,
+  deliveryRadiusKm,
   minimumDeliverySubtotalCents,
   tipPresets,
 } = siteConfig.ordering;
@@ -403,7 +403,7 @@ export function CheckoutForm() {
               icon={Bike}
               title="Delivery"
               meta={<Approx minutes={deliveryLeadMinutes} />}
-              description={`Within ${deliveryRadiusMiles} miles of the restaurant`}
+              description={`Within ${deliveryRadiusKm} km of the restaurant`}
             />
           </RadioGroup>
         </CheckoutSection>
@@ -499,7 +499,7 @@ export function CheckoutForm() {
           <CheckoutSection
             step={step.address}
             title="Where are we delivering?"
-            description={`We deliver within ${deliveryRadiusMiles} miles of ${siteConfig.address.street}, ${siteConfig.address.city}.`}
+            description={`We deliver within ${deliveryRadiusKm} km of ${siteConfig.address.street}, ${siteConfig.address.city}.`}
           >
             <DeliveryThreshold subtotalCents={subtotalCents} />
             <TextField
@@ -533,7 +533,7 @@ export function CheckoutForm() {
               />
               <TextField
                 name="deliveryAddress.postalCode"
-                label="ZIP code"
+                label="PIN code"
                 value={address.postalCode}
                 onValueChange={(value) => updateAddress("postalCode", value)}
                 error={errors["deliveryAddress.postalCode"]}

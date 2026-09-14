@@ -48,7 +48,7 @@ function restaurantSchema() {
     },
     hasMap: osmLargerMapUrl,
     servesCuisine: ["American", "Pizza", "Burgers", "Brunch"],
-    priceRange: "$$",
+    priceRange: "₹₹",
     currenciesAccepted: siteConfig.currency,
     acceptsReservations: absoluteUrl("/reserve"),
     hasMenu: absoluteUrl("/menu"),

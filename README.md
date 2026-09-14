@@ -289,7 +289,7 @@ All restaurant-specific details are centralized in [`lib/site-config.ts`](./lib/
 
 - **Brand & Contact**: Name, tagline, phone number, email, and social handles.
 - **Location & Coordinates**: Street address, postal code, and latitude/longitude coordinates (used for directions and Google Maps URLs).
-- **Operating Hours**: Granular open and close times per day of the week, with timezone support (`America/New_York`).
+- **Operating Hours**: Granular open and close times per day of the week, with timezone support (`Asia/Kolkata`).
 - **Reservation Rules**: Party size limits (`1-10`), slot intervals (`30 mins`), max covers per slot (`32`), and lead-time requirements.
 - **Ordering & Pricing**: Tax rates, delivery radius in miles, base delivery fees, free delivery order thresholds, and lead times.
 
