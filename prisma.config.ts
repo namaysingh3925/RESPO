@@ -21,7 +21,7 @@ export default defineConfig({
   schema: path.join("prisma", "schema.prisma"),
   migrations: {
     path: path.join("prisma", "migrations"),
-    seed: "tsx prisma/seed.ts",
+    seed: "tsx --tsconfig tsconfig.json prisma/seed.ts",
   },
   datasource: {
     url: resolveSqliteUrl(process.env.DATABASE_URL ?? "file:./prisma/dev.db"),
