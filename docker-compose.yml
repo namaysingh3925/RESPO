@@ -1,0 +1,29 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ember-house-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=file:/app/data/dev.db
+      - ADMIN_USER=admin
+      - ADMIN_PASSWORD=super-secret-admin-password
+      - ENFORCE_BUSINESS_HOURS=false
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+    volumes:
+      - sqlite_data:/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3000/api/menu', (res) => process.exit(res.statusCode === 200 ? 0 : 1))\""]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 25s
+
+volumes:
+  sqlite_data:
+    driver: local
