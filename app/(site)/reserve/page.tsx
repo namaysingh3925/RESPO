@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ReservationForm } from "@/components/reserve/reservation-form";
+import { CallToOrder } from "@/components/site/call-to-order";
 import { ReserveInfo } from "@/components/reserve/reserve-info";
 import { PHOTOS, unsplash } from "@/lib/data/menu";
 import { siteConfig } from "@/lib/site-config";
@@ -57,7 +57,7 @@ export default function ReservePage() {
         </section>
 
         <div className="min-w-0">
-          <ReservationForm />
+          <CallToOrder action="book a table" />
         </div>
 
         <ReserveInfo tone="light" className="md:hidden" />

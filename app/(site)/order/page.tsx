@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CheckoutForm } from "@/components/order/checkout-form";
+import { CallToOrder } from "@/components/site/call-to-order";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function CheckoutPage() {
           </p>
         </header>
 
-        <CheckoutForm />
+        <CallToOrder action="place a pickup or delivery order" />
       </div>
     </main>
   );
